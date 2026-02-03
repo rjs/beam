@@ -39,7 +39,7 @@ An app that renders breadboard diagrams to a TLDraw whiteboard canvas, with mark
 | Part | Mechanism |
 |------|-----------|
 | **B1** | Package as npm module with bin entry (`bin/felt.js`) |
-| **B2** | Single command: `felt ./doc.md` (or `npx felt ./doc.md` after publish) |
+| **B2** | Single command: `beam ./doc.md` (or `npx beam ./doc.md` after publish) |
 | **B3** | Starts backend + frontend automatically |
 | **B4** | Opens browser to localhost:3456 |
 | **B5** | File watcher for live updates (from Shape A) |
@@ -47,10 +47,10 @@ An app that renders breadboard diagrams to a TLDraw whiteboard canvas, with mark
 **Usage:**
 ```bash
 # After npm link
-felt ./my-shaping-doc.md
+beam ./my-shaping-doc.md
 
 # Or run directly
-./bin/felt.js ./my-shaping-doc.md
+./bin/beam.js ./my-shaping-doc.md
 ```
 
 ---

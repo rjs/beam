@@ -1,9 +1,9 @@
 {
-  "name": "felt",
+  "name": "beam",
   "version": "1.0.0",
   "main": "index.js",
   "bin": {
-    "felt": "./bin/felt.js"
+    "beam": "./bin/beam.js"
   },
   "directories": {
     "doc": "docs"
