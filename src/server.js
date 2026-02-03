@@ -19,6 +19,10 @@ const markdownFile = process.argv[2]
 // Path to mmdc binary
 const MMDC_PATH = path.join(__dirname, '..', 'node_modules', '.bin', 'mmdc')
 
+// Serve built frontend
+const distPath = path.join(__dirname, '..', 'dist')
+app.use(express.static(distPath))
+
 app.use(express.json())
 
 // --- Mermaid Rendering ---
@@ -210,6 +214,12 @@ if (markdownFile) {
     }
   })
 }
+
+// --- SPA fallback ---
+
+app.get('/{*splat}', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'))
+})
 
 // --- Start Server ---
 

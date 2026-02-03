@@ -2,14 +2,24 @@
   "name": "felt",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": {
+    "felt": "./bin/felt.js"
+  },
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
     "start": "node src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\\\" && exit 1"
   },
+  "files": [
+    "bin",
+    "src/server.js",
+    "dist"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",

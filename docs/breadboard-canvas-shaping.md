@@ -11,7 +11,7 @@ An app that renders breadboard diagrams to a TLDraw whiteboard canvas, with mark
 | R0 | Canvas updates live as we work | ✅ Complete |
 | R1 | Multiple shapes displayed as labeled frames on same canvas | ✅ Complete |
 | R2 | Frames stack vertically (CURRENT at top, then A, B, C...) | ✅ Complete |
-| R3 | Shareable without complex local setup — others can use this workflow easily | Next |
+| R3 | Shareable without complex local setup — others can use this workflow easily | ✅ Complete |
 | R4 | Markdown-sourced frames are "protected" — regenerated from code | Future |
 | R5 | User can sketch/annotate elsewhere on canvas — state persists | Future |
 | R6 | Claude can read TLDraw state as input during shaping | Future |
@@ -34,15 +34,24 @@ An app that renders breadboard diagrams to a TLDraw whiteboard canvas, with mark
 
 ---
 
-## Shape B: npx Package (for R3)
+## Shape B: CLI Package ✅ IMPLEMENTED
 
 | Part | Mechanism |
 |------|-----------|
-| **B1** | Package as npm module with bin entry |
-| **B2** | Single command: `npx breadboard-canvas ./doc.md` |
+| **B1** | Package as npm module with bin entry (`bin/felt.js`) |
+| **B2** | Single command: `felt ./doc.md` (or `npx felt ./doc.md` after publish) |
 | **B3** | Starts backend + frontend automatically |
-| **B4** | Opens browser to localhost |
-| **B5** | File watcher for live updates |
+| **B4** | Opens browser to localhost:3456 |
+| **B5** | File watcher for live updates (from Shape A) |
+
+**Usage:**
+```bash
+# After npm link
+felt ./my-shaping-doc.md
+
+# Or run directly
+./bin/felt.js ./my-shaping-doc.md
+```
 
 ---
 
@@ -95,7 +104,7 @@ C2-B feels cleaner — TLDraw already tracks shapes, we just need to not delete 
 | R0 | Canvas updates live as we work | ✅ Complete | ✅ | ✅ | ✅ |
 | R1 | Multiple shapes displayed as labeled frames | ✅ Complete | ✅ | ✅ | ✅ |
 | R2 | Frames stack vertically | ✅ Complete | ✅ | ✅ | ✅ |
-| R3 | Shareable without complex local setup | Next | ❌ | ✅ | ✅ |
+| R3 | Shareable without complex local setup | ✅ Complete | ❌ | ✅ | ✅ |
 | R4 | Markdown-sourced frames are protected | Future | ❌ | ❌ | ✅ |
 | R5 | User can sketch/annotate, state persists | Future | ❌ | ❌ | ✅ |
 | R6 | Claude can read TLDraw state | Future | ❌ | ❌ | ✅ |
