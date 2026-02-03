@@ -1,9 +1,13 @@
 const express = require('express')
-const { renderMermaid, THEMES } = require('beautiful-mermaid')
 const chokidar = require('chokidar')
 const { WebSocketServer } = require('ws')
 const fs = require('fs')
 const path = require('path')
+const { execFile } = require('child_process')
+const { promisify } = require('util')
+const os = require('os')
+
+const execFileAsync = promisify(execFile)
 
 const app = express()
 const PORT = process.env.PORT || 3456
@@ -12,20 +16,43 @@ const WS_PORT = process.env.WS_PORT || 3457
 // Get markdown file path from CLI args
 const markdownFile = process.argv[2]
 
+// Path to mmdc binary
+const MMDC_PATH = path.join(__dirname, '..', 'node_modules', '.bin', 'mmdc')
+
 app.use(express.json())
 
 // --- Mermaid Rendering ---
 
+let renderCounter = 0
+
 async function render(mermaidText) {
-  const svg = await renderMermaid(mermaidText, {
-    ...THEMES.dark,
-    layerSpacing: 10,   // Vertical spacing (default: 40)
-    nodeSpacing: 10,    // Horizontal spacing (default: 24)
-    padding: 12         // Canvas padding (default: 40)
-  })
-  const base64 = Buffer.from(svg).toString('base64')
-  const dataUrl = `data:image/svg+xml;base64,${base64}`
-  return { base64, dataUrl, svg }
+  const id = renderCounter++
+  const tmpDir = os.tmpdir()
+  const inputFile = path.join(tmpDir, `mermaid-input-${id}.mmd`)
+  const outputFile = path.join(tmpDir, `mermaid-output-${id}.svg`)
+
+  try {
+    // Write mermaid to temp file
+    fs.writeFileSync(inputFile, mermaidText)
+
+    // Run mmdc
+    await execFileAsync(MMDC_PATH, [
+      '-i', inputFile,
+      '-o', outputFile,
+      '-b', 'transparent'
+    ])
+
+    // Read SVG output
+    const svg = fs.readFileSync(outputFile, 'utf-8')
+    const base64 = Buffer.from(svg).toString('base64')
+    const dataUrl = `data:image/svg+xml;base64,${base64}`
+
+    return { base64, dataUrl, svg }
+  } finally {
+    // Cleanup temp files
+    try { fs.unlinkSync(inputFile) } catch {}
+    try { fs.unlinkSync(outputFile) } catch {}
+  }
 }
 
 // --- Markdown Parsing ---
