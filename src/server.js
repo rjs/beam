@@ -1,6 +1,6 @@
 const express = require('express')
 const chokidar = require('chokidar')
-const { WebSocketServer } = require('ws')
+const ws = require('ws')
 const fs = require('fs')
 const path = require('path')
 const { execFile } = require('child_process')
@@ -122,6 +122,7 @@ app.post('/render', async (req, res) => {
 
 // --- WebSocket Server ---
 
+const WebSocketServer = ws.WebSocketServer || ws.Server
 const wss = new WebSocketServer({ port: WS_PORT })
 const clients = new Set()
 

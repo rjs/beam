@@ -8,11 +8,11 @@ const fs = require('fs')
 const markdownFile = process.argv[2]
 
 if (!markdownFile) {
-  console.log('Usage: felt <markdown-file>')
+  console.log('Usage: beam <markdown-file>')
   console.log('')
   console.log('Example:')
-  console.log('  felt ./shaping-doc.md')
-  console.log('  npx felt ./breadboard.md')
+  console.log('  beam ./shaping-doc.md')
+  console.log('  npx beam ./breadboard.md')
   process.exit(1)
 }
 
